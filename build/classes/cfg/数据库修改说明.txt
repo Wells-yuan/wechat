@@ -1,0 +1,190 @@
+1.修改t_contract表，增加settle_Time字段
+
+
+2.修改t_fund_plan和t_fund_execute，增加groupName字段
+3.增加t_code表
+
+4.2014-06-16：修改t_contract表，增加archiveNo（存档号）
+
+5.2014-06-21: 修改t_fund_plan表，修改字段planExecuteTime可为空；修改t_fund_execute表字段executeTime可为空，增加plan_Id字段；
+
+6.2014-07-16: 修改t_contract表，增加字段amountNote（string 类型32位）;修改数据update t_contract a set a.amountNote=a.contractAmount;
+
+7.2014-08-04：修改t_contract表，增加字段createUser，createTime，settleUser。修改fund表，增加planUser，executeUser。修改division表，增加createUser，createTime
+
+8.2014-08-05：增加表t_adjust
+
+9.2014-08-16:增加表t_outLay,创建视图：v_reserve，v_outlay
+
+10.2014-09-03：增加字典表数据dic_line_type，修改表t_contract,增加字段line_Type。修改表t_division，增加字段company，增加字段sub_Id。
+
+11.2014-09-03：更新t_contract表里面的数据
+update t_contract a set a.line_Type='2' where a.contract_Type in('2','3');
+update t_contract a set a.line_Type='3' where a.contract_Type in('4','7')
+update t_contract a set a.line_Type='1' where a.contract_Type in('1','5','6','8','9');
+
+12.2014-09-22:更新表t_contract，增加字段flag,修改表数据,还有些数据的contractSortCode不正确，要修改
+update t_contract set flag='0'
+
+13.2014-09-22:增加表t_merge_ref
+	CREATE TABLE `t_merge_ref` (
+		`id` VARCHAR(32) NOT NULL COMMENT '主键' COLLATE 'utf8_unicode_ci',
+		`contract_Id` VARCHAR(32) NOT NULL COMMENT '归并合同编号' COLLATE 'utf8_unicode_ci',
+		`ref_id` VARCHAR(32) NOT NULL COMMENT '归并关联合同编号' COLLATE 'utf8_unicode_ci',
+		PRIMARY KEY (`id`)
+	)
+	COMMENT='合同归并关联表'
+	COLLATE='utf8_unicode_ci'
+	ENGINE=InnoDB;
+	
+14.删除t_role_auth表里面数据
+delete from t_role_auth;
+insert into t_role_auth(roleAuth_Id,roleId,authId) values('1','1','1001');
+insert into t_role_auth(roleAuth_Id,roleId,authId) values('2','1','1020');
+insert into t_role_auth(roleAuth_Id,roleId,authId) values('3','1','1022');
+
+15.2014-10-12修改了v_reserve视图
+select a.contract_Id,
+	sum(a.baseReserve) as sumBaseReserve,
+	sum(a.ssbbReserve) as sumSsbbReserve
+from t_division a group by a.contract_Id 
+
+16.2014-10-13:修改了v_reserve视图
+select a.contract_Id,
+	sum(a.ycReserve) as sumYcReserve,
+	sum(a.ssbbReserve) as sumSsbbReserve,
+	sum(a.otherFee) as sumOtherFee,
+	sum(a.baseReserve) as sumBaseReserve,
+	sum(a.jjbbReserve) as sumJjbbReserve,
+	sum(a.ownerReserve) as sumOwnerReserve,
+	sum(a.sgsReserve) as sumsgsReserve
+from t_division a group by a.contract_Id
+
+17.2014-10-15:添加视图v_subamount
+ select c.contract_Id as parentId,ifNull(sum(a.contractAmount),0) as amount from t_contract a 
+	left join t_merge_ref b on b.ref_Id=a.parent_Id
+	left join t_contract c on c.contract_Id=b.contract_Id
+	where c.parent_Id='0' and c.flag='2'
+	group by c.contract_Id
+	union
+	select b.contract_Id as parentId,ifNull(sum(a.contractAmount),0) amount from t_contract a
+	left join t_contract b on b.contract_Id=a.parent_Id
+	where b.parent_Id='0' and a.flag='0'
+	group by b.contract_Id
+ 
+18.2014-10-15：修改t_contract表字符编码 
+	alter table t_contract convert to character set utf8 collate utf8_unicode_ci;
+	
+19.2014-10-21：删除先前没用的数据库表t_fund_execute，t_fund_plan，t_fund_settle
+
+20.2014-11-17：(1)增加切块分包合同关联表t_division_ref
+	CREATE TABLE `t_division_ref` (
+		`id` VARCHAR(32) NOT NULL COMMENT '主键',
+		`divisionId` VARCHAR(32) NOT NULL COMMENT '切块id',
+		`contractId` VARCHAR(32) NOT NULL COMMENT '合同id',
+		PRIMARY KEY (`id`)
+	)
+	COMMENT='切块分包合同关联表'	
+21.2014-12-08：修改t_contract里面三个客户字段的长度为32,创建视图v_contract
+select 
+		a.contract_Id,
+		a.parent_Id,
+		a.contract_Type,
+		a.module_Type,
+		a.contract_Code,
+		a.contract_Name,
+		a.contractSortCode,
+		a.draftTime,
+		a.signTime,
+		a.startTime,
+		a.finishTime,
+		ifNull(a.contractAmount,0) as contractAmount,
+		ifNull(a.settleAmount,0) as settleAmount,
+		a.settle_Time,
+		ifNull(a.subAmount,0) as subAmount,
+		ifNull(a.manageAmount,0) as manageAmount,
+		ifNull(a.ratio,0) as ratio,
+		ifNull(a.appAmount,0) as appAmount,
+		a.app_Time,
+		a.contractState,
+		a.archiveState,
+		a.year,
+		ifNull(a.firstParty,'') as firstPartyId,
+		ifNull(a.secondParty,'') as secondPartyId,
+		ifNull(a.thirdParty,'') as thirdPartyId,
+		ifNull(b.customer_Name,'') as firstParty,
+		ifNUll(c.customer_Name,'') as secondParty,
+		ifNull(d.customer_Name,'') as thirdParty,
+		a.`comment`,
+		a.signNote,
+		a.huiqian_Time,
+		a.archive_Note,
+		a.contactPerson,
+		a.contactPhone,
+		a.archiveNo,
+		a.amountNote,
+		a.createUser as createUserId,
+		e.userName as createUser,
+		a.createTime,
+		a.settleUser,
+		a.line_Type,
+		a.flag
+	from t_contract a 
+	 left join t_customer b on b.customer_Id=a.firstParty
+	 left join t_customer c on c.customer_Id=a.secondParty
+	 left join t_customer d on d.customer_Id=a.thirdParty
+	 left join t_user e on e.user_id=a.createUser  
+	
+22.批量修改，先备份数据
+update t_contract a,t_customer b set a.firstParty=b.customer_Id where a.firstParty=b.customer_Name;
+//update t_contract a,t_customer b set a.firstParty=b.customer_Id where b.customer_Name like concat('%',a.firstParty,'%');
+update t_contract a,t_customer b set a.secondParty=b.customer_Id where a.secondParty=b.customer_Name;
+//update t_contract a,t_customer b set a.secondParty=b.customer_Id where b.customer_Name like concat('%',a.secondParty,'%');	
+
+23.创建拨付金额视图v_tj_bfje，
+	create view v_tj_bfje as
+	select a.contract_Id,a.fundType,sum(a.executeAmount) as executeAmount
+	from t_fund a
+	where a.fundState='2'
+	group by a.contract_Id,a.fundType  
+//----------------------增加财务管理模块----------------------------
+
+24.2015-04-13增加表t_finance
+25.2015-04-14增加视图v_finance
+25.2015-04-15增加视图v_zfsfylb:总分收付一览表
+26,2015-04-17修改视图v_reserve：增加列sumDivisionAmount
+27.2015-09-02修改合同表t_contract，增加中标时间字段shotTime
+	alter table t_contract add shotTime datetime default null comment '中标时间';
+28.2015-09-02创建发票表
+	CREATE TABLE `t_bill` (
+		`billId` VARCHAR(32) NOT NULL COMMENT '设置的主键' COLLATE 'utf8_unicode_ci',
+		`pzh` VARCHAR(50) NULL DEFAULT NULL COMMENT '凭证号' COLLATE 'utf8_unicode_ci',
+		`billNumber` VARCHAR(50) NULL DEFAULT NULL COMMENT '发票号' COLLATE 'utf8_unicode_ci',
+		`billAmount` DOUBLE NULL DEFAULT '0' COMMENT '发票金额',
+		`billTime` DATETIME NULL DEFAULT NULL COMMENT '开票时间',
+		`billType` VARCHAR(11) NULL DEFAULT NULL COMMENT '发票类型' COLLATE 'utf8_unicode_ci',
+		`remark` VARCHAR(100) NULL DEFAULT NULL COMMENT '备注' COLLATE 'utf8_unicode_ci',
+		`createTime` DATETIME NULL DEFAULT NULL COMMENT '系统创建时间',
+		PRIMARY KEY (`billId`)
+	)
+	COMMENT='票据表'
+	COLLATE='utf8_unicode_ci'
+	ENGINE=InnoDB;
+
+29.2015-10-09修改v_tf_bfje
+select a.contract_Id,a.financeType as fundType,sum(a.amount) as executeAmount
+	from t_finance a
+	group by a.contract_Id,a.financeType 
+30.2015-10-15增加数据
+insert into t_dictionary values('130000006','dic_module_type','模块分类','GSHT','公司',6,6,'6',null,'公司合同');
+insert into t_code(codeId,code,codeName,modelType,codeType,sort) values(16,'SS-GSZB','公司总包','6','1',1);
+insert into t_code(codeId,code,codeName,modelType,codeType,sort) values(17,'SS-GSF','公司分包','6','9',2);
+
+delete from t_dictionary where Groupname="dic_bill_type";
+insert into t_dictionary values('230000001','dic_bill_type','发票类型','ja','建安',1,1,'1',null,'建安发票');
+insert into t_dictionary values('230000002','dic_bill_type','发票类型','fw','服务',2,2,'2',null,'服务业发票');
+insert into t_dictionary values('230000003','dic_bill_type','发票类型','zp','专票',3,3,'3',null,'专用发票');
+insert into t_dictionary values('230000004','dic_bill_type','发票类型','zb','增补',4,4,'4',null,'增补发票');
+insert into t_dictionary values('230000005','dic_bill_type','发票类型','pt','普通',5,5,'5',null,'普通发票');
+
+	
