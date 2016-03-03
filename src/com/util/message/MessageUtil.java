@@ -33,10 +33,10 @@ public class MessageUtil {
 		List<News> newsList = new ArrayList<News>();
 		News news = new News();
 		
-		news.setTitle("购票提醒\n专为懒人设计！");
-		news.setDescription("为方便大众购买火车票推出的服务");
-		news.setPicUrl("http://wechatest.ngrok.natapp.cn/wechat/common/images/ticket.png");
-		news.setUrl("www.ppj.gift");
+		news.setTitle("刘亦菲~~\n想入非非");
+		news.setDescription("菲菲的相册");
+		news.setPicUrl("http://wechatest.ngrok.natapp.cn/wechat/common/images/feifei.png");
+		news.setUrl("http://photo.weibo.com/3261134763/wbphotos/large/mid/3947958225951611/pid/c260f7abjw1f1ghsfq1e4j20ct0hsabg");
 		
 		News news2 = new News();
 		news2.setTitle("Hololens--Microsoft \n Transform your world");
@@ -67,7 +67,8 @@ public class MessageUtil {
 		sb.append("欢迎您的关注，请按照菜单的提示进行操作：\n\n");
 		sb.append("1、课程介绍\n");
 		sb.append("2、课程管理\n");
-		sb.append("3、试试看\n\n");
+		sb.append("3、试试看\n");
+		sb.append("4、查看图文消息\n\n");
 		sb.append("回复？调出此菜单");
 		return sb.toString();
 	}
