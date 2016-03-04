@@ -10,6 +10,7 @@ public class BaseConst {
 	public static final String MESSAGE_TEXT = "text";
 	public static final String MESSAGE_NEWS = "news";
 	public static final String MESSAGE_IMAGE = "image";
+	public static final String MESSAGE_MUSIC = "music";
 	public static final String MESSAGE_VOICE = "voice";
 	public static final String MESSAGE_VIDEO = "video";
 	public static final String MESSAGE_LINK = "link";
@@ -19,6 +20,9 @@ public class BaseConst {
 	public static final String MESSAGE_UNSUBSCRIBE = "unsubscribe";
 	public static final String MESSAGE_CLICK = "CLICK";
 	public static final String MESSAGE_VIEW = "VIEW";
+	public static final String MESSAGE_SCANCODE = "scancode_push";
+	
+	public static String path;
 	
 	public static final String USERSESSION="USERSESSION";
 	
@@ -83,10 +87,10 @@ public class BaseConst {
 	}
 	
 	public static void main(String[] args){
-		String regEx="[a-zA-Z]*-[a-zA-Z]*-[0-9]*-";
-		Pattern pat=Pattern.compile(regEx); 
-		Matcher match=pat.matcher("SS-JJZB-2014-01");
-		String s=match.replaceAll("");
+//		String regEx="[a-zA-Z]*-[a-zA-Z]*-[0-9]*-";
+//		Pattern pat=Pattern.compile(regEx); 
+//		Matcher match=pat.matcher("SS-JJZB-2014-01");
+//		String s=match.replaceAll("");
 		
 	}
 	

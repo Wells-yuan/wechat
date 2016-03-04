@@ -4,15 +4,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.regex.Pattern;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.log4j.Logger;
 
 /**
  * Url组件
  */
 public abstract class ToolString {
 
-	@SuppressWarnings("unused")
-	private static Logger log = Logger.getLogger(ToolString.class);
+	//private static Logger log = Logger.getLogger(ToolString.class);
 
 	/**
 	 * 常用正则表达式

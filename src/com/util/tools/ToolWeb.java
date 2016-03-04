@@ -9,7 +9,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 
 /**
  * WEB工具类
@@ -17,8 +16,7 @@ import org.apache.log4j.Logger;
  */
 public class ToolWeb {
 
-	@SuppressWarnings("unused")
-	private static Logger log = Logger.getLogger(ToolWeb.class);
+	//private static Logger log = Logger.getLogger(ToolWeb.class);
 
 	/**
 	 * 获取客户端IP地址

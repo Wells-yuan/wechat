@@ -118,6 +118,6 @@ public class LoginAnnotationInterceptor extends HandlerInterceptorAdapter  {
 	
 	private String getBasePath(HttpServletRequest request){
 		//return request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
-		return request.getContextPath();
+		return request.getScheme()+"://"+request.getServerName()+request.getContextPath();
 	}
 }

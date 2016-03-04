@@ -52,6 +52,10 @@ public class Development extends BaseAction {
 					text = MessageUtil.initText(toUserName, fromUserName, MessageUtil.secondMenu());
 				}else if("4".equals(content)){
 					text = MessageUtil.initNewsMessage(toUserName, fromUserName);
+				}else if("5".equals(content)){
+					text = MessageUtil.initImageMessage(toUserName, fromUserName);
+				}else if("6".equals(content)){
+					text = MessageUtil.initMusicMessage(toUserName, fromUserName);
 				}else if("?".equals(content) || "？".equals(content)){
 					text = MessageUtil.initText(toUserName, fromUserName, MessageUtil.menuText());
 				}else{
@@ -61,7 +65,18 @@ public class Development extends BaseAction {
 				String eventType = map.get("Event");
 				if(BaseConst.MESSAGE_SUBSCRIBE.equals(eventType)){
 					text = MessageUtil.initText(toUserName, fromUserName, MessageUtil.menuText());
+				}else if(BaseConst.MESSAGE_CLICK.equals(eventType)){
+					text = MessageUtil.initText(toUserName, fromUserName, MessageUtil.menuText());
+				}else if(BaseConst.MESSAGE_VIEW.equals(eventType)){
+					String url = map.get("EventKey");
+					text = MessageUtil.initText(toUserName, fromUserName, url);
+				}else if(BaseConst.MESSAGE_SCANCODE.equals(eventType)){
+					String key = map.get("EventKey");
+					text = MessageUtil.initText(toUserName, fromUserName, key);
 				}
+			}else if(BaseConst.MESSAGE_LOCATION.equals(msgType)){
+				String label = map.get("Label");
+				text = MessageUtil.initText(toUserName, fromUserName, label);
 			}
 			mav.addObject(text);
 		} catch (DocumentException e) {
@@ -90,7 +105,9 @@ public class Development extends BaseAction {
 //			msg = text;
 //			mav.addObject(msg);
 //		}
-		msg = MessageUtil.initNewsMessage("123", "abc");
+		//msg = MessageUtil.initNewsMessage("123", "abc");
+//		msg = MessageUtil.initImageMessage("123", "abc");
+		msg = MessageUtil.initMusicMessage("123", "abc");
 		mav.addObject(msg);
 		return mav;
 	}

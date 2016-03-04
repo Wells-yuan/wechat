@@ -12,7 +12,6 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 /**
  * 读取资源文件
@@ -21,7 +20,7 @@ import org.apache.log4j.Logger;
  */
 public class ResourceContext {
 	
-	private static final Logger log=Logger.getLogger(ResourceContext.class);
+	//private static final Logger log=Logger.getLogger(ResourceContext.class);
 	
 	private Map<String,String> globalMap=new HashMap<String, String>();
 	
@@ -30,12 +29,12 @@ public class ResourceContext {
 	private static boolean reload=false;
 	
 	public ResourceContext(){
-		if(log.isInfoEnabled()) log.info("正在加载properties配置文件...");
+		//if(log.isInfoEnabled()) log.info("正在加载properties配置文件...");
 		List<String> propList=new ArrayList<String>();
 		String baseUrl="cfg"+File.separator;//在windows下File.separator获取的为‘\’,在unix下获得的为‘/’
 		//文件路径
 		propList.add(baseUrl+"resource.properties");
-		if(log.isInfoEnabled()) log.info("加载的配置文件有"+propList);
+		//if(log.isInfoEnabled()) log.info("加载的配置文件有"+propList);
 		
 		for(String one: propList){
 			loadByStream(one);
@@ -49,12 +48,12 @@ public class ResourceContext {
 	public static ResourceContext getInstance(){
 		if(resourceContext!=null){
 			if(reload){
-				if(log.isInfoEnabled()) log.info("重新加载properties配置文件...");
+				//if(log.isInfoEnabled()) log.info("重新加载properties配置文件...");
 				resourceContext=new ResourceContext();
 			}
 		}
 		if(resourceContext==null){
-			if(log.isInfoEnabled()) log.info("第一次加载properties配置文件...");
+			//if(log.isInfoEnabled()) log.info("第一次加载properties配置文件...");
 			resourceContext=new ResourceContext();
 		}
 		return resourceContext;

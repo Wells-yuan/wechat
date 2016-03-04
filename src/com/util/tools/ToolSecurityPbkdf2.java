@@ -9,8 +9,6 @@ import java.util.Arrays;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-import org.apache.log4j.Logger;
-
 /**
  * 类名称：PBKDF2 
  * 
@@ -25,8 +23,7 @@ import org.apache.log4j.Logger;
  */
 public class ToolSecurityPbkdf2 {
 
-	@SuppressWarnings("unused")
-	private static Logger log = Logger.getLogger(ToolSecurityPbkdf2.class);
+	//private static Logger log = Logger.getLogger(ToolSecurityPbkdf2.class);
 
 	public static boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		// Encrypt the clear-text password using the same salt that was used to

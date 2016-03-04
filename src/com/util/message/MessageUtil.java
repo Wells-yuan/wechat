@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.util.web.Access;
 import com.wechat.BaseConst;
+import com.wechat.message.entity.ImageMessage;
+import com.wechat.message.entity.Music;
+import com.wechat.message.entity.MusicMessage;
 import com.wechat.message.entity.News;
 import com.wechat.message.entity.NewsMessage;
 import com.wechat.message.entity.TextMessage;
@@ -58,6 +62,68 @@ public class MessageUtil {
 	}
 	
 	/**
+	 * 组装图片消息
+	 * @param toUserName
+	 * @param fromUserName
+	 * @return
+	 */
+	public static ImageMessage initImageMessage(String toUserName, String fromUserName){
+		List<String> list = new ArrayList<String>();
+		ImageMessage imageMessage = new ImageMessage();
+		imageMessage.setFromUserName(toUserName);
+		imageMessage.setToUserName(fromUserName);
+		imageMessage.setMsgType(BaseConst.MESSAGE_IMAGE);
+		imageMessage.setCreateTime(new Date().getTime());
+		try {
+//			String mediaId = Access.getMediaId("C:/Users/yuan9/Desktop/hei.jpg", Access.getAccessToken(), "image");
+			String mediaId = "p8ZmvVHmNcPCUaY6SurSXpDTv9nqMorH-9rwVHKpHTZnAsON-Kzhn3wD4WxREIUR";
+//			String mediaId = "erDvP5VRFfDJYepSwM0JgcTIvphorJWs5NggtILwl4-bXYPXyl2sOaLKYDcdg64K";
+//			String mediaId = "WuwXmmwI4Cn1RKfAbQuPsDCFdUiGZrBNAF1ZayjIcz5vQ5u_eEnwKpTl54VJxiTD";
+//			String mediaId1 = "3-E9kA0GPXoz--DSo7o5Ghzo8zzXBCrDdo6atlJWe_zu4la9WHvVwAuoMWhOW3ok";
+			
+//			System.out.println(mediaId);
+//			list.add(mediaId1);
+			list.add(mediaId);
+			imageMessage.setMediaId(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return imageMessage;
+	}
+	
+	public static MusicMessage initMusicMessage(String toUserName, String fromUserName){
+		MusicMessage musicMessage = new MusicMessage();
+		Music music = new Music();
+		
+		music.setTitle("小王子主题曲");
+		music.setDescription("Hans Zimmer - Suis-moi");
+		music.setMusicUrl("http://wechatest.ngrok.natapp.cn/wechat/common/resource/ring.mp3");
+		music.setHQMusicUrl("http://wechatest.ngrok.natapp.cn/wechat/common/resource/ring.mp3");
+		
+		try {
+//			String mediaId = Access.getMediaId("C:/Users/yuan9/Desktop/little.JPG", Access.getAccessToken(), "thumb");
+			String mediaId = "hJAcU4N29YMdzHBIzS7sbtcmhAZoJXP0lr_rX3HiIkqhUdww-ds6MuXoubwwL0kt";
+			
+//			System.out.println(mediaId);
+			music.setThumbMediaId(mediaId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		musicMessage.setFromUserName(toUserName);
+		musicMessage.setToUserName(fromUserName);
+		musicMessage.setMsgType(BaseConst.MESSAGE_MUSIC);
+		musicMessage.setCreateTime(new Date().getTime());
+		musicMessage.setMusic(music);
+		
+		return musicMessage;
+	}
+	
+	
+	
+	
+	/**
 	 * 主菜单
 	 * @author yuan9
 	 *
@@ -84,4 +150,5 @@ public class MessageUtil {
 		sb.append("本课程由SpringMVC、mysql、tomcat搭建.");
 		return sb.toString();
 	}
+	
 }

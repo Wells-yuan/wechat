@@ -2,15 +2,13 @@ package com.util.tools;
 
 import java.util.Random;
 
-import org.apache.log4j.Logger;
 
 /**
  * 随机数类
  */
 public class ToolRandoms {
 
-	@SuppressWarnings("unused")
-	private static Logger log = Logger.getLogger(ToolRandoms.class);
+//	private static Logger log = Logger.getLogger(ToolRandoms.class);
 
 	private static final Random random = new Random();
 

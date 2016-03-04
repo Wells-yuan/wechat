@@ -41,6 +41,8 @@
 				<list>
 					<value>com.wechat.message.entity.TextMessage</value>
 					<value>com.wechat.message.entity.NewsMessage</value>
+					<value>com.wechat.message.entity.ImageMessage</value>
+					<value>com.wechat.message.entity.MusicMessage</value>
 				</list>
 			</property>
 		  </bean>

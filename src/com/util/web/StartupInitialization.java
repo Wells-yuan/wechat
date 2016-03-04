@@ -1,9 +1,12 @@
 package com.util.web;
 
+import java.io.File;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import org.apache.log4j.Logger;
+import com.wechat.BaseConst;
+
 
 
 /**
@@ -15,21 +18,20 @@ public class StartupInitialization extends HttpServlet{
 
 	private static final long serialVersionUID = 8536066575746733421L;
 	
-	private static final Logger log=Logger.getLogger(StartupInitialization.class);
+	//private static final Logger log=Logger.getLogger(StartupInitialization.class);
 	
 	@Override
 	public void init() throws ServletException{
 		
-		if(log.isInfoEnabled()) log.info("正在初始化系统数据");
+		//if(log.isInfoEnabled()) log.info("正在初始化系统数据");
 		
 		// 1、加载资源文件数据
-		if (log.isInfoEnabled()) log.info("...............1、加载资源文件数据............................. ");
+		//if (log.isInfoEnabled()) log.info("...............1、加载资源文件数据............................. ");
 		ResourceContext.getInstance();
 		
 		// 2、加载字典表数据
 //		if (log.isInfoEnabled()) log.info("...............2、加载字典表数据............................... ");
 //		DictionaryTranslate.getInstance();
-		
 	}
 	
 	@Override
